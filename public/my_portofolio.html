@@ -1,0 +1,850 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Muhammad Rizki - Personal Portfolio</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <style>
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        body {
+            scrollbar-width: thin;
+            scrollbar-color: #4A5568 #1A202C;
+            overflow-x: hidden;
+        }
+
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #1A202C;
+        }
+        ::-webkit-scrollbar-thumb {
+            background-color: #4A5568;
+            border-radius: 20px;
+        }
+
+        .section-reveal {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.8s ease-out;
+        }
+
+        .section-reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
+</head>
+<body class="bg-gray-900 text-white font-sans">
+    <div id="entrance-screen" class="fixed inset-0 z-50 bg-gray-900 flex flex-col items-center justify-center">
+        <h1 id="entrance-title" class="text-6xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-600 opacity-0 transform translate-y-10 transition-all duration-1000">
+            Muhammad Rizki
+        </h1>
+        <p id="entrance-subtitle" class="text-xl text-gray-300 mt-4 opacity-0 transform translate-y-10 transition-all duration-1000 delay-500">
+            Full Stack Developer | Web & Machine Learning Enthusiast
+        </p>
+        <div id="entrance-buttons" class="mt-8 flex space-x-4 opacity-0 transform translate-y-10 transition-all duration-1000 delay-1000">
+            <button id="explore-btn" class="border border-blue-400 text-blue-400 hover:bg-blue-400 hover:text-white px-6 py-3 rounded-full transition">
+                Explore Portfolio
+            </button>
+        </div>
+    </div>
+
+    <nav class="fixed top-0 left-0 right-0 z-40 bg-gray-900/80 backdrop-blur-md border-b border-gray-700/30">
+        <div class="container mx-auto px-4 py-4 flex justify-between items-center">
+            <div class="text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-500 to-purple-600 tracking-wider">
+                &lt;MR/&gt;
+            </div>
+            <div class="space-x-6">
+                <a href="#home" class="text-gray-300 relative group">
+                    <span class="relative">
+                        Home
+                        <span class="absolute bottom-[-4px] left-0 w-0 h-0.5 bg-gradient-to-r from-blue-500 to-purple-600 group-hover:w-full transition-all duration-300"></span>
+                    </span>
+                </a>
+                <a href="#projects" class="text-gray-300 relative group">
+                    <span class="relative">
+                        Projects
+                        <span class="absolute bottom-[-4px] left-0 w-0 h-0.5 bg-gradient-to-r from-blue-500 to-purple-600 group-hover:w-full transition-all duration-300"></span>
+                    </span>
+                </a>
+                <a href="#skills" class="text-gray-300 relative group">
+                    <span class="relative">
+                        Skills
+                        <span class="absolute bottom-[-4px] left-0 w-0 h-0.5 bg-gradient-to-r from-blue-500 to-purple-600 group-hover:w-full transition-all duration-300"></span>
+                    </span>
+                </a>
+                <a href="#contact" class="text-gray-300 relative group">
+                    <span class="relative">
+                        Contact
+                        <span class="absolute bottom-[-4px] left-0 w-0 h-0.5 bg-gradient-to-r from-blue-500 to-purple-600 group-hover:w-full transition-all duration-300"></span>
+                    </span>
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <main class="container mx-auto px-4 pt-20 relative">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+        <style>
+            #canvas-3d {
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                z-index: -1;
+                opacity: 0.5;
+                pointer-events: none;
+            }
+            .skill-badge {
+                transition: all 0.3s ease;
+                cursor: pointer;
+                position: relative;
+                overflow: hidden;
+            }
+            .skill-badge:hover {
+                transform: scale(1.1);
+                box-shadow: 0 0 15px rgba(59, 130, 246, 0.5);
+            }
+            .skill-badge::before {
+                content: '';
+                position: absolute;
+                top: 0;
+                left: -100%;
+                width: 100%;
+                height: 100%;
+                background: linear-gradient(120deg, transparent, rgba(255,255,255,0.3), transparent);
+                transition: all 0.6s;
+            }
+            .skill-badge:hover::before {
+                left: 100%;
+            }
+            .profile-image {
+                transition: all 0.5s ease;
+                perspective: 1000px;
+            }
+            .profile-image:hover {
+                transform: scale(1.05) rotateY(10deg);
+                box-shadow: 0 15px 30px rgba(0,0,0,0.2);
+            }
+        </style>
+    
+        <canvas id="canvas-3d"></canvas>
+    
+        <section id="home" class="min-h-screen flex items-center section-reveal relative">
+            <div class="w-full text-center">
+                <div class="flex flex-col items-center">
+                    <img 
+                        src="image/shin2.jpg" 
+                        alt="Profile Picture" 
+                        class="w-48 h-48 md:w-64 md:h-64 rounded-full object-cover profile-image border-4 border-white/20 mb-8 hover:rotate-6"
+                        id="profile-image"
+                    />
+                    <h1 class="text-3xl md:text-5xl font-bold mb-4 text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-600">
+                        <span id="typed-output"></span>
+                    </h1>
+                    <p class="text-xl text-gray-300 mb-8 max-w-2xl mx-auto opacity-80 hover:opacity-100 transition-opacity duration-300">
+                        Crafting innovative digital solutions at the intersection of design and technology
+                    </p>
+                    <div class="mb-8 flex justify-center space-x-4">
+                        <span class="skill-badge px-4 py-2 bg-blue-500 text-white rounded-full">Web Development</span>
+                        <span class="skill-badge px-4 py-2 bg-purple-500 text-white rounded-full">Machine Learning</span>
+                        <span class="skill-badge px-4 py-2 bg-green-500 text-white rounded-full">Cloud Computing</span>
+                    </div>
+                    <div id="home-buttons" class="home-buttons opacity-0 transition-all duration-1000 flex justify-center space-x-4">
+                        <a href="#" class="bg-blue-600 hover:bg-blue-700 px-6 py-3 rounded-full transition inline-block relative">
+                            Download CV
+                        </a>
+                        <a href="#contact" class="border border-blue-400 text-blue-400 hover:bg-blue-400 hover:text-white px-6 py-3 rounded-full transition inline-block relative">
+                            Contact Me
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+    
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/typed.js/2.0.12/typed.min.js"></script>
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                new Typed('#typed-output', {
+                    strings: ['Full Stack Developer', 'Front-End Developer', 'Back-End Developer'],
+                    typeSpeed: 100,
+                    backSpeed: 50,
+                    loop: true
+                });
+    
+                setTimeout(() => {
+                    document.getElementById('home-buttons').classList.remove('opacity-0');
+                }, 2000);
+    
+                const canvas = document.getElementById('canvas-3d');
+                const renderer = new THREE.WebGLRenderer({ 
+                    canvas, 
+                    alpha: true,
+                    antialias: true 
+                });
+                renderer.setSize(window.innerWidth, window.innerHeight);
+                renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    
+                const scene = new THREE.Scene();
+                const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+                camera.position.z = 5;
+    
+                const ambientLight = new THREE.AmbientLight(0x404040);
+                scene.add(ambientLight);
+    
+                const directionalLight = new THREE.DirectionalLight(0xffffff, 1);
+                directionalLight.position.set(5, 5, 5);
+                scene.add(directionalLight);
+    
+                const geometries = [];
+                const materials = [];
+                const meshes = [];
+    
+                const icosahedronGeometry = new THREE.IcosahedronGeometry(1, 0);
+                const icosahedronMaterial = new THREE.MeshStandardMaterial({ 
+                    color: 0x3b82f6, 
+                    wireframe: true,
+                    transparent: true,
+                    opacity: 0.3
+                });
+                const icosahedronMesh = new THREE.Mesh(icosahedronGeometry, icosahedronMaterial);
+                icosahedronMesh.position.set(-2, 0, 0);
+                scene.add(icosahedronMesh);
+    
+                const torusKnotGeometry = new THREE.TorusKnotGeometry(0.7, 0.2, 100, 16);
+                const torusKnotMaterial = new THREE.MeshStandardMaterial({ 
+                    color: 0x8b5cf6, 
+                    wireframe: true,
+                    transparent: true,
+                    opacity: 0.3
+                });
+                const torusKnotMesh = new THREE.Mesh(torusKnotGeometry, torusKnotMaterial);
+                torusKnotMesh.position.set(2, 0, 0);
+                scene.add(torusKnotMesh);
+    
+                const particlesGeometry = new THREE.BufferGeometry();
+                const particlesCount = 3000;
+                const posArray = new Float32Array(particlesCount * 3);
+    
+                for (let i = 0; i < particlesCount * 3; i++) {
+                    posArray[i] = (Math.random() - 0.5) * 20;
+                }
+    
+                particlesGeometry.setAttribute('position', new THREE.BufferAttribute(posArray, 3));
+    
+                const particlesMaterial = new THREE.PointsMaterial({
+                    size: 0.02,
+                    color: 0x10b981,
+                    transparent: true,
+                    blending: THREE.AdditiveBlending,
+                    opacity: 0.5
+                });
+    
+                const particlesMesh = new THREE.Points(particlesGeometry, particlesMaterial);
+                scene.add(particlesMesh);
+    
+                const mouse = new THREE.Vector2();
+                window.addEventListener('mousemove', (event) => {
+                    mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
+                    mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
+                });
+    
+                const clock = new THREE.Clock();
+                function animate() {
+                    const elapsedTime = clock.getElapsedTime();
+    
+                    icosahedronMesh.rotation.x = elapsedTime * 0.3;
+                    icosahedronMesh.rotation.y = elapsedTime * 0.2;
+                    torusKnotMesh.rotation.x = elapsedTime * 0.2;
+                    torusKnotMesh.rotation.y = elapsedTime * 0.3;
+    
+                    particlesMesh.rotation.y = elapsedTime * 0.05;
+                    particlesMesh.rotation.x = elapsedTime * 0.03;
+    
+                    camera.position.x = mouse.x * 0.5;
+                    camera.position.y = mouse.y * 0.5;
+    
+                    renderer.render(scene, camera);
+                    requestAnimationFrame(animate);
+                }
+    
+                animate();
+    
+                window.addEventListener('resize', () => {
+                    camera.aspect = window.innerWidth / window.innerHeight;
+                    camera.updateProjectionMatrix();
+                    renderer.setSize(window.innerWidth, window.innerHeight);
+                    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+                });
+            });
+
+            const profileImage = document.getElementById('profile-image');
+            profileImage.addEventListener('mousemove', (e) => {
+                const rect = profileImage.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                
+                const rotateX = -(y - rect.height / 2) / 20;
+                const rotateY = (x - rect.width / 2) / 20;
+                
+                profileImage.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(1.05)`;
+            });
+
+            profileImage.addEventListener('mouseleave', () => {
+                profileImage.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg) scale(1)';
+            });
+
+            const skillBadges = document.querySelectorAll('.skill-badge');
+            const hoverTexts = {
+                'Web Development': 'Full-stack expertise',
+                'Machine Learning': 'AI & data science',
+                'Cloud Computing': 'Scalable solutions'
+            };
+
+            skillBadges.forEach(badge => {
+                badge.addEventListener('mouseenter', (e) => {
+                    const originalText = e.target.textContent;
+                    e.target.textContent = hoverTexts[originalText] || originalText;
+                });
+
+                badge.addEventListener('mouseleave', (e) => {
+                    e.target.textContent = e.target.textContent === hoverTexts[e.target.textContent] 
+                        ? e.target.textContent.split(' ')[0] 
+                        : e.target.textContent;
+                });
+            });
+        
+        </script>
+    </main>
+
+        <section id="projects" class="py-16 section-reveal">
+            <h2 class="text-3xl font-bold text-center mb-12">
+                My Projects
+            </h2>
+            <style>
+                .flip-card {
+                    perspective: 1000px;
+                    width: 100%;
+                    height: 400px;
+                }
+                .flip-card-inner {
+                    position: relative;
+                    width: 100%;
+                    height: 100%;
+                    text-align: center;
+                    transition: transform 0.8s;
+                    transform-style: preserve-3d;
+                }
+                .flip-card:hover .flip-card-inner {
+                    transform: rotateY(180deg);
+                }
+                .flip-card-front, 
+                .flip-card-back {
+                    position: absolute;
+                    width: 100%;
+                    height: 100%;
+                    backface-visibility: hidden;
+                    display: flex;
+                    flex-direction: column;
+                    justify-content: center;
+                    align-items: center;
+                    border-radius: 0.5rem;
+                    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+                }
+                .flip-card-front {
+                    background-color: #1F2937;
+                    z-index: 2;
+                }
+                .flip-card-back {
+                    background-color: #111827;
+                    transform: rotateY(180deg);
+                    padding: 1rem;
+                    overflow-y: auto;
+                }
+            </style>
+            <div class="grid md:grid-cols-3 gap-8">
+                <div class="flip-card">
+                    <div class="flip-card-inner">
+                        <div class="flip-card-front bg-gray-800 p-6 rounded-lg">
+                            <img src="image/e-commerce.png" alt="E-Commerce Platform" class="w-full h-48 object-cover rounded-lg mb-4">
+                            <h3 class="text-xl font-semibold mb-4">E-Commerce Platform</h3>
+                            <div class="flex space-x-2">
+                                <span class="bg-blue-900 text-blue-300 px-2 py-1 rounded-full text-sm">Alpine.js</span>
+                                <span class="bg-green-900 text-green-300 px-2 py-1 rounded-full text-sm">Node.js</span>
+                            </div>
+                        </div>
+                        <div class="flip-card-back">
+                            <h3 class="text-2xl font-bold mb-4 text-blue-400">E-Commerce Platform</h3>
+                            <p class="text-gray-300 mb-4 text-center">
+                                A comprehensive e-commerce solution built with modern web technologies, featuring robust backend 
+                                and responsive frontend design. Implemented advanced features like real-time inventory management, 
+                                secure payment integration, and user authentication.
+                            </p>
+                            <div class="mb-4">
+                                <h4 class="text-xl font-semibold text-blue-300 mb-2">Key Technologies:</h4>
+                                <div class="flex justify-center space-x-2">
+                                    <span class="bg-blue-900 text-blue-300 px-2 py-1 rounded-full text-sm">ALpine JS</span>
+                                    <span class="bg-green-900 text-green-300 px-2 py-1 rounded-full text-sm">Node.js</span>
+                                    <span class="bg-purple-900 text-purple-300 px-2 py-1 rounded-full text-sm">PHP</span>
+                                    <span class="bg-red-900 text-red-300 px-2 py-1 rounded-full text-sm">Laravel</span>
+                                </div>
+                            </div>
+                            <div class="flex space-x-4">
+                                <a href="#" class="bg-blue-600 text-white px-4 py-2 rounded-full hover:bg-blue-700 transition">
+                                    View Project
+                                </a>
+                                <a href="#" class="border border-blue-400 text-blue-400 px-4 py-2 rounded-full hover:bg-blue-400 hover:text-white transition">
+                                    GitHub
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+        
+                <div class="flip-card">
+                    <div class="flip-card-inner">
+                        <div class="flip-card-front bg-gray-800 p-6 rounded-lg">
+                            <img src="image/search-app.png" alt="Mobile Banking App" class="w-full h-48 object-cover rounded-lg mb-4">
+                            <h3 class="text-xl font-semibold mb-4">Anime Search App</h3>
+                            <div class="flex space-x-2">
+                                <span class="bg-blue-900 text-blue-300 px-2 py-1 rounded-full text-sm">React</span>
+                                <span class="bg-green-900 text-green-300 px-2 py-1 rounded-full text-sm">API Jikan</span>
+                            </div>
+                        </div>
+                        <div class="flip-card-back">
+                            <h3 class="text-2xl font-bold mb-4 text-blue-400">Anime Search App</h3>
+                            <p class="text-gray-300 mb-4 text-center">
+                                An application designed to help users discover and explore anime, utilizing the Jikan API for seamless access to comprehensive anime data. The app is built using React, providing an interactive and dynamic user interface that enhances the overall browsing experience.
+                            </p>
+                            <div class="mb-4">
+                                <h4 class="text-xl font-semibold text-blue-300 mb-2">Key Technologies:</h4>
+                                <div class="flex justify-center space-x-2">
+                                    <span class="bg-blue-900 text-blue-300 px-2 py-1 rounded-full text-sm">React</span>
+                                    <span class="bg-green-900 text-green-300 px-2 py-1 rounded-full text-sm">API Jikan</span>
+                                </div>
+                            </div>
+                            <div class="flex space-x-4">
+                                <a href="#" class="bg-blue-600 text-white px-4 py-2 rounded-full hover:bg-blue-700 transition">
+                                    View Project
+                                </a>
+                                <a href="#" class="border border-blue-400 text-blue-400 px-4 py-2 rounded-full hover:bg-blue-400 hover:text-white transition">
+                                    GitHub
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+        
+                <div class="flip-card">
+                    <div class="flip-card-inner">
+                        <div class="flip-card-front bg-gray-800 p-6 rounded-lg">
+                            <img src="image/computer_vision.png" alt="AI Chatbot" class="w-full h-48 object-cover rounded-lg mb-4">
+                            <h3 class="text-xl font-semibold mb-4">Computer Vision</h3>
+                            <div class="flex space-x-2">
+                                <span class="bg-blue-900 text-blue-300 px-2 py-1 rounded-full text-sm">Python</span>
+                                <span class="bg-green-900 text-green-300 px-2 py-1 rounded-full text-sm">TensorFlow</span>
+                            </div>
+                        </div>
+                        <div class="flip-card-back">
+                            <h3 class="text-2xl font-bold mb-4 text-blue-400">Computer Vision</h3>
+                            <p class="text-gray-300 mb-4 text-center">
+                                A Computer Vision project focused on creating a remote control for the cursor using hand tracking technology. This project is entirely developed using Python and leverages TensorFlow as the primary framework for building and training machine learning models to enable real-time hand movement tracking.
+                            </p>
+                            <div class="mb-4">
+                                <h4 class="text-xl font-semibold text-blue-300 mb-2">Key Technologies:</h4>
+                                <div class="flex justify-center space-x-2">
+                                    <span class="bg-blue-900 text-blue-300 px-2 py-1 rounded-full text-sm">Python</span>
+                                    <span class="bg-green-900 text-green-300 px-2 py-1 rounded-full text-sm">TensorFlow</span>
+                                    <span class="bg-purple-900 text-purple-300 px-2 py-1 rounded-full text-sm">NLP</span>
+                                </div>
+                            </div>
+                            <div class="flex space-x-4">
+                                <a href="#" class="bg-blue-600 text-white px-4 py-2 rounded-full hover:bg-blue-700 transition">
+                                    View Project
+                                </a>
+                                <a href="#" class="border border-blue-400 text-blue-400 px-4 py-2 rounded-full hover:bg-blue-400 hover:text-white transition">
+                                    GitHub
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="skills" class="py-16 section-reveal">
+            <h2 class="text-3xl font-bold text-center mb-12">
+                Technical Skills
+            </h2>
+            <style>
+                .skill-card {
+                    position: relative;
+                    overflow: hidden;
+                    transition: all 0.3s ease;
+                }
+        
+                .skill-card::before {
+                    content: '';
+                    position: absolute;
+                    top: -50%;
+                    left: -50%;
+                    width: 200%;
+                    height: 200%;
+                    background: linear-gradient(
+                        45deg, 
+                        transparent, 
+                        rgba(255,255,255,0.1), 
+                        transparent
+                    );
+                    transform: rotate(0deg);
+                    transition: all 0.5s ease;
+                }
+        
+                .skill-card:hover::before {
+                    transform: rotate(180deg);
+                }
+        
+                .tooltip {
+                    position: absolute;
+                    top: -70px;
+                    left: 50%;
+                    transform: translateX(-50%) scale(0.7);
+                    opacity: 0;
+                    background: rgba(31, 41, 55, 0.9);
+                    color: white;
+                    padding: 10px 15px;
+                    border-radius: 10px;
+                    transition: all 0.3s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+                    pointer-events: none;
+                    box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+                    backdrop-filter: blur(10px);
+                    border: 1px solid rgba(255,255,255,0.1);
+                }
+        
+                .skill-card:hover .tooltip {
+                    top: -80px;
+                    opacity: 1;
+                    transform: translateX(-50%) scale(1);
+                }
+        
+                .tooltip::after {
+                    content: '';
+                    position: absolute;
+                    bottom: -10px;
+                    left: 50%;
+                    transform: translateX(-50%) rotate(45deg);
+                    width: 15px;
+                    height: 15px;
+                    background: rgba(31, 41, 55, 0.9);
+                }
+            </style>
+            <div class="grid md:grid-cols-3 gap-8 px-8">
+                <div class="skill-card bg-gray-800 p-6 rounded-lg text-center hover:scale-105 transition transform relative">
+                    <div class="tooltip">
+                        <p class="font-bold mb-1">Programming Languages</p>
+                        <p class="text-gray-300">JavaScript, TypeScript</p>
+                        <div class="my-2 border-t border-gray-600"></div>
+                        <p class="font-bold mb-1">Frameworks & Libraries</p>
+                        <p class="text-gray-300">React, Vue, Next.js</p>
+                    </div>
+                    <i class="fab fa-react text-5xl text-blue-400 mb-4"></i>
+                    <h3 class="text-xl font-semibold mb-2 text-white">Frontend</h3>
+                    <p class="text-gray-300">JavaScript, TypeScript, HTML, CSS</p>
+                </div>
+    
+                <div class="skill-card bg-gray-800 p-6 rounded-lg text-center hover:scale-105 transition transform relative">
+                    <div class="tooltip">
+                        <p class="font-bold mb-1">Programming Languages</p>
+                        <p class="text-gray-300">JavaScript, Python</p>
+                        <div class="my-2 border-t border-gray-600"></div>
+                        <p class="font-bold mb-1">Frameworks & Libraries</p>
+                        <p class="text-gray-300">Node.js, Express, Django</p>
+                    </div>
+                    <i class="fab fa-node text-5xl text-green-400 mb-4"></i>
+                    <h3 class="text-xl font-semibold mb-2 text-white">Backend</h3>
+                    <p class="text-gray-300">JavaScript, Python</p>
+                </div>
+    
+                <div class="skill-card bg-gray-800 p-6 rounded-lg text-center hover:scale-105 transition transform relative">
+                    <div class="tooltip">
+                        <p class="font-bold mb-1">NoSQL Databases</p>
+                        <p class="text-gray-300">MongoDB, Firebase</p>
+                        <div class="my-2 border-t border-gray-600"></div>
+                        <p class="font-bold mb-1">SQL Databases</p>
+                        <p class="text-gray-300">PostgreSQL, MySQL</p>
+                    </div>
+                    <i class="fas fa-database text-5xl text-purple-400 mb-4"></i>
+                    <h3 class="text-xl font-semibold mb-2 text-white">Database</h3>
+                    <p class="text-gray-300">MongoDB, PostgreSQL</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="contact" class="py-16 section-reveal bg-gray-900 text-white relative overflow-hidden">
+            <div class="absolute inset-0 bg-gradient-to-r from-blue-900/20 to-purple-900/20 opacity-20"></div>
+            <div class="container relative z-10 mx-auto px-4">
+                <h2 class="text-4xl font-extrabold text-center mb-12 text-transparent bg-clip-text bg-gradient-to-r from-blue-500 to-purple-600 relative">
+                    Contact Me
+                    <span class="absolute -bottom-2 left-1/2 transform -translate-x-1/2 w-16 h-1 bg-gradient-to-r from-blue-500 to-purple-600"></span>
+                </h2>
+                <div class="max-w-lg mx-auto bg-gray-800/60 backdrop-blur-lg p-8 rounded-2xl shadow-2xl border-2 border-gray-700/30 relative overflow-hidden">
+                    <div class="absolute -top-10 -right-10 w-24 h-24 bg-blue-600/20 rounded-full blur-2xl"></div>
+                    <div class="absolute -bottom-10 -left-10 w-24 h-24 bg-purple-600/20 rounded-full blur-2xl"></div>
+                    
+                    <form id="contactForm" action="/contact" method="POST" class="space-y-6 relative z-10">
+                        <div class="relative group">
+                            <input 
+                                type="text" 
+                                name="name" 
+                                placeholder="Your Name" 
+                                class="w-full bg-gray-700/50 p-3 rounded-lg mb-4 transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-blue-500 group-hover:bg-gray-700/70"
+                                required
+                            >
+                            <span class="absolute left-0 bottom-0 h-0.5 w-full bg-gradient-to-r from-blue-500 to-purple-600 scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left"></span>
+                        </div>
+                        <div class="relative group">
+                            <input 
+                                type="email" 
+                                name="email" 
+                                placeholder="Your Email" 
+                                class="w-full bg-gray-700/50 p-3 rounded-lg mb-4 transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-blue-500 group-hover:bg-gray-700/70"
+                                required
+                            >
+                            <span class="absolute left-0 bottom-0 h-0.5 w-full bg-gradient-to-r from-blue-500 to-purple-600 scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left"></span>
+                        </div>
+                        <div class="relative group">
+                            <textarea 
+                                name="message" 
+                                placeholder="Your Message" 
+                                class="w-full bg-gray-700/50 p-3 rounded-lg mb-4 h-32 transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-blue-500 group-hover:bg-gray-700/70 resize-none"
+                                required
+                            ></textarea>
+                            <span class="absolute left-0 bottom-0 h-0.5 w-full bg-gradient-to-r from-blue-500 to-purple-600 scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left"></span>
+                        </div>
+                        <button 
+                            type="submit"
+                            id="submitButton"
+                            class="w-full bg-gradient-to-r from-blue-600 to-purple-600 text-white p-3 rounded-lg transition transform hover:scale-105 hover:shadow-xl relative overflow-hidden group"
+                        >
+                            <div id="buttonContent" class="flex items-center justify-center space-x-2">
+                                <span>Send Message</span>
+                            </div>
+                            <div id="loadingIndicator" class="hidden absolute inset-0 flex items-center justify-center">
+                                <div class="w-6 h-6 border-2 border-t-4 border-white/50 border-t-white rounded-full animate-spin"></div>
+                            </div>
+                        </button>
+                    </form>
+                    
+                    <script>
+                    document.getElementById('contactForm').addEventListener('submit', function(e) {
+                        e.preventDefault();
+        
+                        const submitButton = document.getElementById('submitButton');
+                        const buttonContent = document.getElementById('buttonContent');
+                        const loadingIndicator = document.getElementById('loadingIndicator');
+        
+                        submitButton.disabled = true;
+                        buttonContent.classList.add('invisible');
+                        loadingIndicator.classList.remove('hidden');
+        
+                        // Send form to backend
+                        fetch('/contact', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                            },
+                            body: JSON.stringify({
+                                name: e.target.name.value,
+                                email: e.target.email.value,
+                                message: e.target.message.value
+                            })
+                        })
+                        .then(response => {
+                            if (!response.ok) {
+                                throw new Error('Failed to send message');
+                            }
+                            return response.text();
+                        })
+                        .then(data => {
+                            alert('Message sent successfully!');
+                            e.target.reset();
+                        })
+                        .catch(error => {
+                            console.error('Error:', error);
+                            alert('Failed to send message. Please try again.');
+                        })
+                        .finally(() => {
+                            // Re-enable button and hide loading
+                            submitButton.disabled = false;
+                            buttonContent.classList.remove('invisible');
+                            loadingIndicator.classList.add('hidden');
+                        });
+                    });
+                    </script>
+                </div>
+            </div>
+        </section>
+        
+        <footer class="bg-gray-800 py-6 text-center relative overflow-hidden group">
+            <!-- Improved Gradient Background Effect -->
+            <div class="absolute inset-0 bg-gradient-to-r from-gray-800 via-gray-700 to-gray-800 opacity-0 group-hover:opacity-30 transition-opacity duration-700 ease-in-out"></div>
+            
+            <!-- Subtle Particle Background -->
+            <div class="absolute inset-0 pointer-events-none overflow-hidden">
+                <div class="particle"></div>
+                <div class="particle"></div>
+                <div class="particle"></div>
+            </div>
+            
+            <p class="text-gray-400 mb-4 relative z-10 transform transition-all duration-300 group-hover:-translate-y-1 group-hover:text-white tracking-wider">
+                &copy; 2024 Muhammad Rizki. All Rights Reserved.
+            </p>
+            
+            <div class="flex justify-center space-x-4 relative z-10">
+                <a 
+                    href="#" 
+                    class="text-gray-400 hover:text-white transition-all duration-300 transform hover:scale-125 hover:rotate-6 hover:shadow-lg group relative social-icon"
+                >
+                    <i class="fab fa-github"></i>
+                    <span class="absolute inset-0 border-2 border-white/20 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300 animate-pulse"></span>
+                </a>
+                <a 
+                    href="#" 
+                    class="text-gray-400 hover:text-white transition-all duration-300 transform hover:scale-125 hover:-rotate-6 hover:shadow-lg group relative social-icon"
+                >
+                    <i class="fab fa-linkedin"></i>
+                    <span class="absolute inset-0 border-2 border-white/20 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300 animate-pulse"></span>
+                </a>
+                <a 
+                    href="#" 
+                    class="text-gray-400 hover:text-white transition-all duration-300 transform hover:scale-125 hover:rotate-6 hover:shadow-lg group relative social-icon"
+                >
+                    <i class="fab fa-twitter"></i>
+                    <span class="absolute inset-0 border-2 border-white/20 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300 animate-pulse"></span>
+                </a>
+            </div>
+            
+            <!-- Advanced Animated Border -->
+            <div class="absolute bottom-0 left-0 right-0 h-0.5 bg-gradient-to-r from-transparent via-white/30 to-transparent animate-border"></div>
+        </footer>
+        
+        <style>
+            @keyframes borderAnimation {
+                0%, 100% { transform: scaleX(0); }
+                50% { transform: scaleX(1); }
+            }
+            
+            .animate-border {
+                animation: borderAnimation 5s infinite;
+                transform-origin: center;
+            }
+        
+            @keyframes particleMove {
+                0%, 100% { 
+                    transform: translateX(0) translateY(0) scale(0);
+                    opacity: 0;
+                }
+                50% { 
+                    opacity: 0.3;
+                    transform: translateX(100px) translateY(-100px) scale(1.5);
+                }
+            }
+        
+            .particle {
+                position: absolute;
+                width: 8px;
+                height: 8px;
+                background: rgba(255,255,255,0.1);
+                border-radius: 50%;
+                animation: particleMove 8s infinite;
+                opacity: 0;
+            }
+        
+            .particle:nth-child(1) { 
+                left: 10%; 
+                top: 20%;
+                animation-delay: 2s;
+            }
+            .particle:nth-child(2) { 
+                right: 20%; 
+                top: 50%;
+                animation-delay: 4s;
+            }
+            .particle:nth-child(3) { 
+                left: 30%; 
+                bottom: 30%;
+                animation-delay: 6s;
+            }
+        </style>
+    <script>
+        // Entrance Animation
+        document.addEventListener('DOMContentLoaded', () => {
+            const entranceScreen = document.getElementById('entrance-screen');
+            const title = document.getElementById('entrance-title');
+            const subtitle = document.getElementById('entrance-subtitle');
+            const buttons = document.getElementById('entrance-buttons');
+            const exploreBtn = document.getElementById('explore-btn');
+            const homeButtons = document.getElementById('home-buttons');
+
+            // Animate entrance elements
+            setTimeout(() => {
+                title.classList.remove('opacity-0', 'translate-y-10');
+                subtitle.classList.remove('opacity-0', 'translate-y-10');
+                buttons.classList.remove('opacity-0', 'translate-y-10');
+            }, 100);
+
+            // Remove entrance screen and show home buttons after animation
+            exploreBtn.addEventListener('click', () => {
+                entranceScreen.classList.add('opacity-0');
+                setTimeout(() => {
+                    entranceScreen.style.display = 'none';
+                    homeButtons.classList.remove('opacity-0');
+                }, 1000);
+            });
+        });
+
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+
+        // Scroll Reveal Animation
+        const revealElements = document.querySelectorAll('.section-reveal');
+        const revealOnScroll = () => {
+            revealElements.forEach(element => {
+                const windowHeight = window.innerHeight;
+                const elementTop = element.getBoundingClientRect().top;
+                const elementVisible = 150;
+
+                if (elementTop < windowHeight - elementVisible) {
+                    element.classList.add('active');
+                } else {
+                    element.classList.remove('active');
+                }
+            });
+        };
+
+        window.addEventListener('scroll', revealOnScroll);
+        revealOnScroll(); // Initial check
+    </script>
+</body>
+</html>

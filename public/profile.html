@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profil Pengguna</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Refined transitions and minimalist animations */
+        body {
+            font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+        }
+        input, button {
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .profile-card {
+            transition: all 0.3s ease-in-out;
+            will-change: transform, box-shadow;
+        }
+        .profile-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 24px rgba(0,0,0,0.06);
+        }
+        /* Soft focus effect */
+        input:focus {
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
+        }
+        /* Subtle loading and status animations */
+        @keyframes subtlePulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
+        }
+    </style>
+    <script>
+        // Preserve original JavaScript functionality
+        document.addEventListener('DOMContentLoaded', () => {
+            fetch('/profile')
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Gagal mengambil profil');
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    document.getElementById('username').value = data.username;
+                    document.getElementById('email').textContent = data.email;
+                })
+                .catch(err => {
+                    console.error(err);
+                    alert('Gagal memuat profil. Silakan login kembali.');
+                    window.location.href = '/login.html';
+                });
+        });
+
+        function saveUsername() {
+            const newUsername = document.getElementById('username').value;
+            const saveButton = document.getElementById('save-username-btn');
+            const statusIcon = document.getElementById('status-icon');
+
+            saveButton.disabled = true;
+            saveButton.classList.add('opacity-50', 'cursor-not-allowed');
+            statusIcon.innerHTML = '<svg class="animate-spin h-5 w-5 text-blue-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>';
+
+            fetch('/update-username', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ username: newUsername })
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Gagal memperbarui username');
+                }
+                statusIcon.innerHTML = '<svg class="h-5 w-5 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>';
+                setTimeout(() => {
+                    statusIcon.innerHTML = '';
+                }, 2000);
+            })
+            .catch(err => {
+                console.error(err);
+                statusIcon.innerHTML = '<svg class="h-5 w-5 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>';
+                setTimeout(() => {
+                    statusIcon.innerHTML = '';
+                }, 2000);
+            })
+            .finally(() => {
+                saveButton.disabled = false;
+                saveButton.classList.remove('opacity-50', 'cursor-not-allowed');
+            });
+        }
+    </script>
+</head>
+<body class="bg-gradient-to-br from-gray-50 to-gray-100 min-h-screen flex items-center justify-center p-4">
+    <div class="w-full max-w-md p-8 space-y-6 bg-white rounded-2xl shadow-lg profile-card border border-gray-100">
+        <div class="text-center">
+            <h1 class="text-3xl font-bold text-gray-900 mb-2 tracking-tight">Profil Saya</h1>
+            <p class="text-gray-500 text-sm mb-6">Kelola informasi akun Anda</p>
+        </div>
+
+        <div class="space-y-5">
+            <div>
+                <label for="username" class="block text-sm font-semibold text-gray-700 mb-2">Username</label>
+                <div class="flex items-center space-x-3">
+                    <input 
+                        type="text" 
+                        id="username" 
+                        placeholder="Masukkan username baru" 
+                        class="flex-grow px-4 py-2.5 border border-gray-300 rounded-lg shadow-sm text-gray-800 placeholder-gray-400 focus:border-blue-400"
+                    >
+                    <button 
+                        id="save-username-btn"
+                        onclick="saveUsername()" 
+                        class="px-5 py-2.5 bg-blue-500 text-white rounded-lg hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-opacity-50 transition-colors"
+                    >
+                        Simpan
+                    </button>
+                    <div id="status-icon" class="w-5 h-5"></div>
+                </div>
+            </div>
+
+            <div>
+                <label class="block text-sm font-semibold text-gray-700 mb-2">Email</label>
+                <p 
+                    id="email" 
+                    class="px-4 py-2.5 border border-gray-300 rounded-lg bg-gray-50 text-gray-700 truncate"
+                ></p>
+            </div>
+        </div>
+
+        <div class="text-center pt-4">
+            <a 
+                href="/logout" 
+                class="text-red-500 hover:text-red-700 font-medium inline-flex items-center transition-colors group"
+            >
+                <svg class="w-5 h-5 mr-2 group-hover:animate-pulse" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path>
+                </svg>
+                Logout
+            </a>
+        </div>
+    </div>
+</body>
+</html>

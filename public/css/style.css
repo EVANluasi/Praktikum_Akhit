@@ -1,0 +1,468 @@
+*, *::before, *::after {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    --primary-color: #2196f3;
+    --secondary-color: #f5f5f5;
+    --accent-color: #ff4081;
+    --text-color: #333;
+    --text-light: #666;
+    --white: #ffffff;
+    --max-width: 1200px;
+    --header-height: 70px;
+    --transition: all 0.3s ease-in-out;
+}
+
+body {
+    font-family: 'Segoe UI', system-ui, sans-serif;
+    line-height: 1.6;
+    color: var(--text-color);
+    background-color: var(--secondary-color);
+    grid-template-rows: auto 1fr auto;
+    display: grid;
+}
+
+.header {
+    background: var(--white);
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    position: fixed;
+    width: 100%;
+    top: 0;
+    z-index: 1000;
+}
+
+.nav-container {
+    max-width: var(--max-width);
+    margin: 0 auto;
+    padding: 0 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: var(--header-height);
+}
+
+.logo a {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: var(--primary-color);
+    text-decoration: none;
+    transition: var(--transition);
+}
+
+.logo a:hover {
+    color: var(--accent-color);
+}
+
+.nav-menu {
+    display: flex;
+    list-style: none;
+    gap: 2rem;
+}
+
+.nav-menu a {
+    color: var(--text-color);
+    text-decoration: none;
+    font-weight: 500;
+    transition: var(--transition);
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+}
+
+.nav-menu a:hover, .nav-menu a.active {
+    color: var(--primary-color);
+    background-color: rgba(33, 150, 243, 0.1);
+}
+
+.login-btn a {
+    background-color: var(--primary-color);
+    color: var(--white);
+    padding: 0.5rem 1.5rem;
+    border-radius: 25px;
+}
+
+.login-btn a:hover {
+    background-color: var(--accent-color);
+    color: var(--white);
+}
+
+.hero {
+    height: 500px;
+    background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
+                url('bullying.jpg') no-repeat center;
+    background-size: cover;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    color: var(--white);
+    padding: 0 20px;
+    margin-top: var(--header-height);
+}
+
+.hero-title {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.hero-subtitle {
+    font-size: 1.5rem;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+.container {
+    max-width: var(--max-width);
+    margin: 0 auto;
+    background: var(--white);
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+}
+
+.content {
+    padding: 3rem 2rem;
+}
+
+.article-title {
+    font-size: 2.5rem;
+    color: var(--primary-color);
+    margin-bottom: 1rem;
+}
+
+.article-meta {
+    color: var(--text-light);
+    margin-bottom: 2rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid #eee;
+}
+
+.article-meta a {
+    color: var(--primary-color);
+    text-decoration: none;
+}
+
+.article-content h3 {
+    font-size: 1.8rem;
+    margin: 2rem 0 1rem;
+    color: var(--text-color);
+}
+
+.article-content p {
+    margin-bottom: 1.5rem;
+    text-align: justify;
+}
+
+:root {
+    --light-blue: #7CC2F5;
+    --light-blue-glow: rgba(124, 194, 245, 0.3);
+    --lighter-blue: #A5D7F7;
+}
+
+.footer {
+    background: var(--text-color);
+    color: var(--white);
+    padding: 3rem 0;
+    margin-top: 3rem;
+    grid-row: 3;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 -10px 30px rgba(124, 194, 245, 0.1);
+}
+
+/* Subtle gradient overlay */
+.footer::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -50%;
+    width: 200%;
+    height: 100%;
+    background: linear-gradient(
+        90deg,
+        transparent,
+        var(--light-blue-glow),
+        transparent
+    );
+    animation: elegantShimmer 12s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+}
+
+@keyframes elegantShimmer {
+    0% {
+        transform: translateX(-30%);
+    }
+    100% {
+        transform: translateX(30%);
+    }
+}
+
+.footer-content {
+    max-width: var(--max-width);
+    margin: 0 auto;
+    padding: 0 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: relative;
+    z-index: 1;
+    transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+    flex-wrap: wrap; /* Added for responsiveness */
+    gap: 2rem; /* Space between wrapped items */
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .footer-content {
+        flex-direction: column;
+        text-align: center;
+        padding: 0 15px;
+    }
+}
+
+.social-links {
+    display: flex;
+    gap: 2rem;
+    align-items: center;
+    flex-wrap: wrap; /* Allow wrapping on small screens */
+    justify-content: center; /* Center on small screens */
+}
+
+/* Adjust spacing on mobile */
+@media (max-width: 480px) {
+    .social-links {
+        gap: 1.5rem;
+    }
+}
+
+.social-links a {
+    color: var(--white);
+    text-decoration: none;
+    font-size: 1.2rem;
+    padding: 0.8rem;
+    position: relative;
+    isolation: isolate;
+    transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    /* Make touch targets larger on mobile */
+    min-width: 44px;
+    min-height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Elegant hover effect for social links */
+.social-links a::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: 50%;
+    border: 1px solid transparent;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    transform: scale(1.2);
+    opacity: 0;
+}
+
+.social-links a:hover {
+    color: var(--light-blue);
+    transform: translateY(-2px);
+}
+
+.social-links a:hover::before {
+    border-color: var(--light-blue);
+    transform: scale(1);
+    opacity: 1;
+}
+
+/* Subtle glow effect on hover */
+.social-links a:hover {
+    text-shadow: 0 0 15px var(--light-blue);
+}
+
+/* Elegant click animation */
+.social-links a:active {
+    transform: scale(0.95) translateY(-2px);
+}
+
+/* Smooth entrance animation for social links */
+.social-links a {
+    opacity: 0;
+    animation: fadeInRise 0.8s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+    animation-delay: calc(var(--i) * 0.1s);
+}
+
+@keyframes fadeInRise {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Elegant hover state for entire footer */
+.footer:hover::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+        45deg,
+        transparent,
+        var(--light-blue-glow),
+        transparent
+    );
+    animation: elegantGlow 2s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+}
+
+@keyframes elegantGlow {
+    0%, 100% {
+        opacity: 0.3;
+    }
+    50% {
+        opacity: 0.6;
+    }
+}
+
+/* Smooth scroll indicator */
+.footer::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background: linear-gradient(
+        90deg,
+        transparent,
+        var(--light-blue),
+        transparent
+    );
+    opacity: 0;
+    transition: opacity 0.6s ease;
+}
+
+.footer:hover::after {
+    opacity: 0.3;
+}
+
+/* Remove hover effects on touch devices */
+@media (hover: none) {
+    .footer-content:hover {
+        transform: none;
+    }
+    
+    .social-links a:hover {
+        transform: none;
+        text-shadow: none;
+    }
+}
+
+/* Optimize animations for reduced motion preference */
+@media (prefers-reduced-motion: reduce) {
+    .footer::before,
+    .social-links a,
+    .footer:hover::after {
+        animation: none;
+        transition: none;
+    }
+}
+
+.hamburger {
+    display: none;
+    cursor: pointer;
+}
+
+.bar {
+    display: block;
+    width: 25px;
+    height: 3px;
+    margin: 5px auto;
+    transition: var(--transition);
+    background-color: var(--text-color);
+}
+
+@media (max-width: 768px) {
+    .hamburger {
+        display: block;
+    }
+
+    .hamburger.active .bar:nth-child(2) {
+        opacity: 0;
+    }
+
+    .hamburger.active .bar:nth-child(1) {
+        transform: translateY(8px) rotate(45deg);
+    }
+
+    .hamburger.active .bar:nth-child(3) {
+        transform: translateY(-8px) rotate(-45deg);
+    }
+
+    .nav-menu {
+        position: fixed;
+        left: -100%;
+        top: var(--header-height);
+        gap: 0;
+        flex-direction: column;
+        background-color: var(--white);
+        width: 100%;
+        text-align: center;
+        transition: var(--transition);
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    }
+
+    .nav-menu.active {
+        left: 0;
+    }
+
+    .nav-menu li {
+        margin: 16px 0;
+    }
+
+    .hero-title {
+        font-size: 2rem;
+    }
+
+    .hero-subtitle {
+        font-size: 1.2rem;
+    }
+
+    .footer-content {
+        flex-direction: column;
+        text-align: center;
+        gap: 1rem;
+    }
+
+    .social-links {
+        margin-top: 1rem;
+    }
+
+    .social-links a {
+        margin: 0 0.75rem;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    * {
+        animation: none !important;
+        transition: none !important;
+    }
+}
+
+:focus {
+    outline: 3px solid var(--primary-color);
+    outline-offset: 3px;
+}
+
+.visually-hidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    border: 0;
+}

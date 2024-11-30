@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="css/style.css">
+    <title>Anti Bullying Campaign</title>
+</head>
+<body>
+    <header class="header">
+        <nav class="nav-container">
+            <div class="logo">
+                <a href="#">Anti Bullying</a>
+            </div>
+            <ul class="nav-menu">
+                <li><a href="#" class="active">Home</a></li>
+                <li><a href="profile.html">Profile</a></li>
+                <li><a href="my_portofolio.html">My Portfolio</a></li>
+                <li><a href="#">Dashboard</a></li>
+                <li class="login-btn"><a href="login.html">Login</a></li>
+            </ul>
+            <div class="hamburger">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </div>
+        </nav>
+    </header>
+
+    <main class="container">
+        <section class="hero">
+            <h1 class="hero-title">Stop Bullying Campaign</h1>
+            <p class="hero-subtitle">Together we can create a safer environment for everyone</p>
+        </section>
+
+        <article class="content">
+            <h2 class="article-title">Anti Bullying Campaign</h2>
+            <div class="article-meta">
+                <span class="author">By <a href="#">RPL Team</a></span>
+                <span class="date">October 31, 2024</span>
+            </div>
+
+            <div class="article-content">
+                <p>Bullying atau perundungan adalah perilaku tidak terpuji yang dapat melukai perasaan 
+                bahkan fisik orang lain, seperti kekerasan. Kasus bullying seringkali ditemukan di 
+                sekolah.</p>
+
+                <p>Beberapa orang tua tidak yakin bagaimana cara untuk memulai melindungi anak-anak mereka 
+                dari bullying dan kekerasan lainnya. Bahkan, beberapa orang tua mungkin tidak tahu apakah 
+                anak-anak mereka adalah korban, saksi, atau bahkan pelaku dari perbuatan berbahaya ini.</p>
+
+                <h3>Apa itu bullying?</h3>
+                <p>Anda biasanya dapat mengidentifikasi bullying melalui tiga karakteristik berikut: 
+                disengaja (untuk menyakiti), terjadi secara berulang-ulang, dan ada perbedaan kekuasaan. 
+                Seorang pelaku bullying memang bermaksud menyebabkan rasa sakit pada korbannya, baik 
+                menyakiti fisik atau kata-kata atau perilaku yang menyakitkan, dan melakukannya berulang 
+                kali.</p>
+
+                <p>Anak laki-laki lebih mungkin mengalami bullying fisik, sedangkan anak perempuan lebih 
+                mungkin mengalami bullying secara psikologis, walaupun jenis keduanya tentu cenderung 
+                saling berhubungan.</p>
+
+                <p>Bullying adalah pola perilaku bukan insiden yang terjadi sekali kali. Anak anak yang 
+                melakukan bullying biasanya berasal dari status sosial atau posisi kekuasaan yang lebih 
+                tinggi, seperti anak anak yang lebih besar, lebih kuat, atau dianggap populer sehingga 
+                dapat menyalahgunakan posisinya.</p>
+            </div>
+        </article>
+    </main>
+
+    <footer class="footer">
+        <div class="footer-content">
+            <p class="copyright">Copyright © RPL 2024. All rights reserved.</p>
+            <div class="social-links">
+                <a href="#" aria-label="Facebook">Facebook</a>
+                <a href="#" aria-label="Twitter">Twitter</a>
+                <a href="#" aria-label="Instagram">Instagram</a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        const hamburger = document.querySelector('.hamburger');
+        const navMenu = document.querySelector('.nav-menu');
+
+        hamburger.addEventListener('click', () => {
+            hamburger.classList.toggle('active');
+            navMenu.classList.toggle('active');
+        });
+    </script>
+</body>
+</html>
